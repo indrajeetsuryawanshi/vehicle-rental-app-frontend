@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes,  } from 'react-router-dom';
+import NameForm from './components/NameForm';
+import WheelsForm from './components/WheelsForm';
+import VehicleTypeForm from './components/VehicleTypeForm';
+import VehicleModelForm from './components/VehicleModelForm';
 
-function App() {
+
+const App = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    wheels: '',
+    vehicleType: '',
+    vehicleModel: '',
+    dateRange: null,
+  });
+
+  const handleFormChange = (field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<NameForm formData={formData} onChange={handleFormChange} />} />
+        <Route path="/wheels" element={<WheelsForm formData={formData} onChange={handleFormChange} />} />
+        <Route path="/vehicle-type" element={<VehicleTypeForm formData={formData} onChange={handleFormChange} />} />
+        <Route path="/vehicle-model" element={<VehicleModelForm formData={formData} onChange={handleFormChange} />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
